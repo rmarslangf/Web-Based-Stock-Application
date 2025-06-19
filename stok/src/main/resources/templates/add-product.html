@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ürün Ekle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #231810;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin-top: 50px;
+        }
+        .form-control {
+            background-color: #493222;
+            border: 1px solid #684831;
+            color: white;
+        }
+        .form-control:focus {
+            background-color: #493222;
+            border-color: #f37a24;
+            color: white;
+            box-shadow: none;
+        }
+        .btn-primary {
+            background-color: #f37a24;
+            border-color: #f37a24;
+        }
+        .btn-primary:hover {
+            background-color: #d66a1f;
+            border-color: #d66a1f;
+        }
+        .form-label {
+            color: #cba990;
+        }
+        select.form-control {
+            background-color: #493222;
+            color: white;
+        }
+        select.form-control option {
+            background-color: #493222;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-4">Yeni Ürün Ekle</h2>
+        <form id="addProductForm">
+            <div class="mb-3">
+                <label class="form-label">Ürün Adı</label>
+                <input type="text" class="form-control" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Açıklama</label>
+                <textarea class="form-control" name="description" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fiyat</label>
+                <input type="number" class="form-control" name="price" step="0.01" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Stok Miktarı</label>
+                <input type="number" class="form-control" name="stockQuantity" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Kategori</label>
+                <select class="form-control" name="category" id="category" required>
+                    <option value="">Kategori Seçin</option>
+                    <option value="YEMEKLIK">Yemeklik</option>
+                    <option value="ICEECEK">İçecek</option>
+                    <option value="YEŞILLIK">Yeşillik</option>
+                    <option value="MEYVE">Meyve</option>
+                    <option value="SEBZE">Sebze</option>
+                    <option value="ABURCUBUR">Abur Cubur</option>
+                    <option value="DİĞER">Diğer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Son Kullanma Tarihi</label>
+                <input type="date" class="form-control" name="expiryDate" id="expiryDate" required>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a href="/home" class="btn btn-secondary">Geri Dön</a>
+                <button type="submit" class="btn btn-primary">Ürün Ekle</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('category').addEventListener('change', function() {
+            const category = this.value;
+            const expiryDateInput = document.getElementById('expiryDate');
+            
+            if (category === 'YEŞILLIK') {
+                // Yeşillik için varsayılan SKT'yi ayarla (20 gün sonrası)
+                const today = new Date();
+                const expiryDate = new Date(today);
+                expiryDate.setDate(today.getDate() + 20);
+                
+                // Tarihi YYYY-MM-DD formatına çevir
+                const formattedDate = expiryDate.toISOString().split('T')[0];
+                expiryDateInput.value = formattedDate;
+            }
+        });
+
+        document.getElementById('addProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const product = Object.fromEntries(formData.entries());
+            product.price = parseFloat(product.price);
+            product.stockQuantity = parseInt(product.stockQuantity);
+
+            fetch('/home/stock/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(product)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(text || 'Bir hata oluştu');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Ürün başarıyla eklendi!');
+                window.location.href = '/home/stock';
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+                alert('Ürün eklenirken bir hata oluştu: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html> 

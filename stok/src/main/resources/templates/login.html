@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="main">
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="/images/signin-image.jpg" alt="sign in image"></figure>
+                    <a href="/req/signup" class="signup-image-link">Create an account</a>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Log in</h2>
+
+                    <!-- Giriş Formu -->
+                    <form th:action="@{/login}" method="post" class="register-form" id="login-form">
+
+                        <!-- Username -->
+                        <div class="form-group">
+                            <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="username" id="username" placeholder="Username" required />
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="password" id="password" placeholder="Password" required />
+                        </div>
+
+                        <!-- CSRF Token -->
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                        <!-- Giriş Butonu -->
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                        </div>
+
+                        <!-- Hata mesajı -->
+                        <div th:if="${param.error}" style="color:red; margin-top:10px;">
+                            Kullanıcı adı veya şifre hatalı.
+                        </div>
+                        <div th:if="${param.logout}" style="color:green; margin-top:10px;">
+                            Başarıyla çıkış yaptınız.
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- JS -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
