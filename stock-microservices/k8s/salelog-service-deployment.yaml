@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salelog-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: salelog-service
+  template:
+    metadata:
+      labels:
+        app: salelog-service
+    spec:
+      containers:
+        - name: salelog-service
+          image: salelog-service:latest
+          ports:
+            - containerPort: 8083
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "default"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: salelog-service
+spec:
+  type: ClusterIP
+  selector:
+    app: salelog-service
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083 
