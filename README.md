@@ -38,7 +38,7 @@
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Table of Contents/İçerik</summary>
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
@@ -50,18 +50,13 @@
       <a href="#getting-started">Getting Started</a>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About The Project | Proje Hakkında
 
 
 🇬🇧 I developed a comprehensive stock management web application that allows users to add, sell, and track products, visualize stock levels, and analyze profits through interactive charts. This project showcases my skills in API development, database design, and creating seamless user experiences.
